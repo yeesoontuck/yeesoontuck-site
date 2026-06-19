@@ -1,5 +1,6 @@
 /* ── Design tokens ──────────────────────────────── */
 :root {
+  color-scheme: light;
   --bg:            #ffffff;
   --bg-alt:        #f8fafc;
   --surface:       #ffffff;
@@ -18,6 +19,38 @@
   --shadow-sm: 0 1px 3px rgba(15,23,42,.07), 0 1px 2px rgba(15,23,42,.04);
   --shadow-md: 0 4px 16px rgba(15,23,42,.08), 0 2px 6px rgba(15,23,42,.04);
   --shadow-lg: 0 12px 40px rgba(15,23,42,.10), 0 4px 14px rgba(15,23,42,.06);
+}
+
+/* ── Dark theme tokens ──────────────────────────── */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:            #0f172a;
+  --bg-alt:        #111827;
+  --surface:       #1e293b;
+  --border:        #334155;
+  --border-hover:  #475569;
+  --text:          #f1f5f9;
+  --text-muted:    #94a3b8;
+  --accent:        #818cf8;
+  --accent-mid:    #a5b4fc;
+  --accent-light:  rgba(99,102,241,.18);
+  --accent-hover:  #a5b4fc;
+  --green:         #34d399;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.3),  0 1px 2px rgba(0,0,0,.2);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.2);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,.45), 0 4px 14px rgba(0,0,0,.25);
+}
+
+/* Smooth transitions on theme switch */
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition:
+    background-color .3s var(--ease-out),
+    border-color .3s var(--ease-out),
+    color .2s var(--ease-out),
+    box-shadow .3s var(--ease-out) !important;
 }
 
 /* ── Reset ──────────────────────────────────────── */
@@ -591,6 +624,46 @@ section { padding-block: clamp(5rem, 10vw, 8rem); }
 .footer p { font-size: .875rem; color: var(--text-muted); }
 .footer a { color: var(--accent); }
 .footer a:hover { text-decoration: underline; }
+
+/* ── Theme toggle button ────────────────────────── */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+  background: transparent;
+  flex-shrink: 0;
+  transition: color .2s, border-color .2s, background .2s;
+}
+.theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+/* hide whichever icon isn't active */
+.icon-sun  { display: none; }
+[data-theme="dark"] .icon-moon { display: none; }
+[data-theme="dark"] .icon-sun  { display: block; }
+
+/* ── Dark-mode overrides (hardcoded colours) ────── */
+[data-theme="dark"] .nav.scrolled {
+  background: rgba(15,23,42,.88);
+}
+[data-theme="dark"] .hero-bg {
+  background-image: radial-gradient(circle, #1e293b 1px, transparent 1px);
+}
+[data-theme="dark"] .hero-bg::after {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -10%,
+      rgba(99,102,241,.18) 0%, transparent 65%),
+    linear-gradient(to bottom, transparent 55%, var(--bg) 100%);
+}
+[data-theme="dark"] #hero { background: var(--bg); }
+[data-theme="dark"] .nav.open .nav-links { background: var(--surface); }
 
 /* ── Responsive ─────────────────────────────────── */
 @media (max-width: 768px) {

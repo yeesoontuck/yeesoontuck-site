@@ -1,3 +1,27 @@
+/* ── Dark mode ──────────────────────────────────── */
+const root         = document.documentElement;
+const themeBtn     = document.getElementById('theme-toggle');
+const STORAGE_KEY  = 'theme';
+
+function applyTheme(dark) {
+  root.setAttribute('data-theme', dark ? 'dark' : 'light');
+  themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+}
+
+function toggleTheme() {
+  root.classList.add('theme-transitioning');
+  const isDark = root.getAttribute('data-theme') !== 'dark';
+  applyTheme(isDark);
+  sessionStorage.setItem(STORAGE_KEY, isDark ? 'dark' : 'light');
+  setTimeout(() => root.classList.remove('theme-transitioning'), 400);
+}
+
+// Restore preference from sessionStorage on load
+const saved = sessionStorage.getItem(STORAGE_KEY);
+if (saved) applyTheme(saved === 'dark');
+
+themeBtn.addEventListener('click', toggleTheme);
+
 /* ── Nav: scroll effect ─────────────────────────── */
 const nav    = document.getElementById('nav');
 const toggle = document.getElementById('nav-toggle');
